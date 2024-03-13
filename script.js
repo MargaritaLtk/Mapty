@@ -60,7 +60,6 @@ class App {
 
    constructor() {
       this._getPosition();
-
       this._getLocalStorage();
       form.addEventListener('submit', this._newWorkout.bind(this));
       inputType.addEventListener('change', this._toggleElevationField);
@@ -136,7 +135,7 @@ class App {
       this._renderWorkoutMarker(workout);
       this._renderWorkout(workout);
       this._hideForm();
-      this._setLocalStorage();
+      this._setLocalStorage(this.#workouts);
    }
 
    _renderWorkoutMarker(workout) {
@@ -160,6 +159,7 @@ class App {
       let html = ` 
       <li class="workout workout--${workout.type}" data-id="${workout.id}">
       <h2 class="workout__title">${workout.description}</h2>
+      <div class="workout__delete"></div>
       <div class="workout__details">
          <span class="workout__icon">🏃</span>
          <span class="workout__value">${workout.distance}</span>
@@ -202,6 +202,10 @@ class App {
    }
 
    _moveToPopUp(e) {
+      if (e.target.className === 'workout__delete') {
+         this._deleteWorkout(e);
+         return;
+      }
       const workoutEl = e.target.closest('.workout');
       if (!workoutEl) return;
       const workout = this.#workouts.find((el) => el.id === workoutEl.dataset.id);
@@ -212,8 +216,8 @@ class App {
          },
       });
    }
-   _setLocalStorage() {
-      localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+   _setLocalStorage(data) {
+      localStorage.setItem('workouts', JSON.stringify(data));
    }
 
    _getLocalStorage() {
@@ -224,6 +228,15 @@ class App {
       this.#workouts.forEach((work) => {
          this._renderWorkout(work);
       });
+   }
+
+   _deleteWorkout(e) {
+      const workoutEl = e.target.closest('.workout');
+      if (!workoutEl) return;
+      workoutEl.remove();
+      const data = JSON.parse(localStorage.getItem('workouts'));
+      const indexOfRemovEL = data.findIndex((el) => el.id === workoutEl.dataset.id);
+      this._setLocalStorage(newData);
    }
 }
 
