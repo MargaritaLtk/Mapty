@@ -72,7 +72,7 @@ a:visited {
    padding: 1.5rem 2.25rem;
    margin-bottom: 1.75rem;
    cursor: pointer;
-
+   position: relative;
    display: grid;
    grid-template-columns: 1fr 1fr 1fr 1fr;
    gap: 0.75rem 1.5rem;
@@ -88,6 +88,40 @@ a:visited {
    font-size: 1.7rem;
    font-weight: 600;
    grid-column: 1 / -1;
+}
+
+.workout__delete {
+   position: absolute;
+   top: 30px;
+   right: 20px;
+   width: 24px;
+   height: 24px;
+   opacity: 0.2;
+   cursor: pointer;
+   transition: opacity ease 0.5s;
+}
+
+.workout__delete:hover {
+   opacity: 0.8;
+}
+
+.workout__delete::before,
+.workout__delete::after {
+   content: '';
+   position: absolute;
+   top: -5px;
+   display: block;
+   width: 20px;
+   height: 3px;
+   background: #000;
+}
+
+.workout__delete::before {
+   transform: rotate(45deg);
+}
+
+.workout__delete::after {
+   transform: rotate(-45deg);
 }
 
 .workout__details {
