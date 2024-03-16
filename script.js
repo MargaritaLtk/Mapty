@@ -236,6 +236,8 @@ class App {
       workoutEl.remove();
       const data = JSON.parse(localStorage.getItem('workouts'));
       const indexOfRemovEL = data.findIndex((el) => el.id === workoutEl.dataset.id);
+      const newData = [...data];
+      newData.splice(indexOfRemovEL, 1);
       this._setLocalStorage(newData);
    }
 }
